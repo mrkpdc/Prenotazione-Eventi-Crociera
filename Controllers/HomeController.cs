@@ -40,11 +40,6 @@ namespace ProvaEsame.Controllers
             return View();
         }
 
-        public IActionResult Servizi()
-        {
-            return View();
-        }
-
         public IActionResult Prenotazione()
         {
 

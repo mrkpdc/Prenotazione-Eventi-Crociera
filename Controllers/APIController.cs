@@ -10,6 +10,11 @@ using Microsoft.AspNetCore.Identity;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
+//Mancano da implementare
+//    - modifica di posti o eliminazione prenotazione da parte dell'utente (e dell'admin)
+//    - controllo dei posti rimanenti e avviso in caso di overbooking
+//    - miglioramenti grafici frontend
+
 namespace ProvaEsame.Controllers
 {
     [Route("api/[controller]")]
@@ -40,13 +45,22 @@ namespace ProvaEsame.Controllers
             return Ok();
         }
 
-        //API di tipo Get per ricevere dal DB la lista delle prenotazioni eseguite dallo user loggaro
-        //[HttpGet("ListaPrenotazioni")]
-        //public async Task<List<PrenotazioneModel>> ListaPrenotazioni()
-        //{
-        //    string username = User.Identity.Name;
-        //    List<PrenotazioneModel> prenotazioni = this.repository.GetPrenotazioniUser(username);
-        //    return (prenotazioni);
-        //}
+        //API di tipo Get per ricevere dal DB la lista delle prenotazioni eseguite dallo user loggato
+        [HttpGet("ListaPrenotazioni")]
+        public async Task<List<PrenotazioneModel>> ListaPrenotazioni()
+        {
+            string userID = userManager.GetUserId(User);
+            List<PrenotazioneModel> prenotazioni = this.repository.GetListaPrenotazioniUser(userID);
+            return (prenotazioni);
+        }
+
+        //API di tipo Get per ricevere dal DB la lista di tutte le prenotazioni
+        [HttpGet("ListaPrenotazioniAdmin")]
+        public async Task<List<PrenotazioneModel>> ListaPrenotazioniAdmin()
+        {
+            List<PrenotazioneModel> prenotazioni = this.repository.GetListaPrenotazioniAdmin();
+            return (prenotazioni);
+        }
+
     }
 }

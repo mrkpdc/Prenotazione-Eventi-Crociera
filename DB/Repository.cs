@@ -47,6 +47,12 @@ namespace ProvaEsame.DB
             return result;
         }
 
+        public List<Prenotazione> GetPrenotazioniByID(string CodReplica)
+        {
+            List<Prenotazione> result = this.crocieraDBContext.Prenotazioni.Where(p => p.CodReplica == CodReplica).ToList();
+            return result;
+        }
+
         public List<Prenotazione> GetPrenotazioni()
         {
             List<Prenotazione> result = this.crocieraDBContext.Prenotazioni.ToList();
@@ -57,18 +63,8 @@ namespace ProvaEsame.DB
         {
             try
             {
-                if(this.crocieraDBContext.Prenotazioni.Where(p => p.CodReplica == prenotazione.CodReplica).FirstOrDefault() == null)
-                {
-                    this.crocieraDBContext.Prenotazioni.Add(prenotazione);
-                    this.crocieraDBContext.SaveChanges();
-                }
-                else
-                {
-                    Prenotazione toUpdate = this.crocieraDBContext.Prenotazioni.Where(p => p.CodReplica == prenotazione.CodReplica).FirstOrDefault();
-                    toUpdate.Quantita = toUpdate.Quantita + prenotazione.Quantita;
-                    this.crocieraDBContext.Prenotazioni.Update(toUpdate);
-                    this.crocieraDBContext.SaveChanges();
-                }
+                this.crocieraDBContext.Prenotazioni.Add(prenotazione);
+                this.crocieraDBContext.SaveChanges();
             }
             catch (Exception ex)
             {
@@ -76,12 +72,39 @@ namespace ProvaEsame.DB
             }
         }
 
-        //public string GetUserId(string name)
-        //{
-        //    string result = this.userDBContext.Where(e => e.CodEvento == CodEvento).ToList();
-        //    return result;
-        //}
+        //Funzione che recupera tutte le prenotazioni
+        public List<PrenotazioneModel> GetListaPrenotazioniAdmin()
+        {
+            List<Prenotazione> result = this.crocieraDBContext.Prenotazioni.ToList();
+            result = result.ToList();
+            List<PrenotazioneModel> model = new List<PrenotazioneModel>();
+            foreach (Prenotazione p in result)
+                model.Add(new PrenotazioneModel()
+                {
+                    CodPrenotazione = p.CodPrenotazione.ToString(),
+                    CodUtente = p.CodUtente,
+                    CodReplica = p.CodReplica,
+                    Quantita = p.Quantita.ToString()
+                });
+            return model;
+        }
 
+        //Funzione che recupera le prenotazioni di un utente specifico
+        public List<PrenotazioneModel> GetListaPrenotazioniUser(string userID)
+        {
+            List<Prenotazione> result = this.crocieraDBContext.Prenotazioni.ToList();
+            result = result.Where(p => p.CodUtente == userID).ToList();
+            List<PrenotazioneModel> model = new List<PrenotazioneModel>();
+            foreach (Prenotazione p in result)
+                model.Add(new PrenotazioneModel()
+                {
+                    CodPrenotazione = p.CodPrenotazione.ToString(),
+                    CodUtente = p.CodUtente,
+                    CodReplica = p.CodReplica,
+                    Quantita = p.Quantita.ToString()
+                });
+            return model;
+        }
 
 
     }
