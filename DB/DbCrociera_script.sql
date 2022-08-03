@@ -1,8 +1,8 @@
-﻿/* la password dell'utente admin è Password01! */
-/* la password dell'utente AntonioCassini è Cassini77! */
-/* la password dell'utente BiancaBenedetti è benBianca44. */
-/* la password dell'utente ElenaSiciliano è sicEI55! */
-/* la password dell'utente EnricoFornari è Enrico99. */
+--la password dell'utente admin è Password01!
+--la password dell'utente AntonioCassini è Cassini77!
+--la password dell'utente BiancaBenedetti è benBianca44.
+--la password dell'utente ElenaSiciliano è sicEI55!
+--la password dell'utente EnricoFornari è Enrico99.
 
 
 USE [master]
